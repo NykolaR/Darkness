@@ -1,46 +1,59 @@
 -- 
 -- lightlines.lua
 -- Renders light lines
--- Pretty awesome TBH
+-- Pretty awesome TBH. Potential performance increase: remove use of tables in algo
+-- Version: 2.0
+-- Last Refactored Dec. 21st, 2016
+-- Quality: Probably good
 --
 
 local LightLines = {}
 
-function LightLines.render (playArea, Cx, Cy, lineLength)
-    local staticCasters = playArea.ENVIRONMENT
-    local dynamicCasters = playArea.ENEMIES
-    local lineLength = lineLength or 1
-    local center = {}
-    center.x = Cx
-    center.y = Cy
-    local result = false
-    local intersect = {}
-    
-    love.graphics.setColor (100, 0, 0)
+LightLines.canvas = love.graphics.newCanvas (love.graphics.getWidth (), love.graphics.getHeight ())
+LightLines.canvas:setFilter ("nearest", "nearest")
+LightLines.lastCanvas = nil
 
-    for i,v in pairs (staticCasters) do
-        local ray_end = {
-            x = v.hitbox.x + (v.hitbox.width / 2),
-            y = v.hitbox.y + (v.hitbox.height / 2)
-        }
-        result, intersect = LightLines.intersectSegments (center, ray_end,
-            { x = v.hitbox.x, y = v.hitbox.y }, { x = v.hitbox.x + v.hitbox.width, y = v.hitbox.y }, lineLength)
+LightLines.lock = false
 
-        if result then
-            love.graphics.line (Cx, Cy, intersect.x, intersect.y)
-        end
-    end
+function LightLines.startLines ()
+    LightLines.lastCanvas = love.graphics.getCanvas ()
+    love.graphics.setCanvas (LightLines.canvas)
 end
 
-function LightLines.renderLine (playArea, Cx, Cy, Lx, Ly, lineLength)
+function LightLines.endLines ()
+    love.graphics.setCanvas (LightLines.lastCanvas)
+end
+
+function LightLines.clear ()
+    LightLines.startLines ()
+
+    --love.graphics.setColor (240, 240, 240, 255)
+    --love.graphics.setBlendMode ("multiply", "alphamultiply")
+    --love.graphics.rectangle ("fill", 0, 0, LightLines.canvas:getWidth (), LightLines.canvas:getHeight ())
+
+    love.graphics.setColor (4, 4, 4)
+    --love.graphics.setColor (3, 3, 3)
+    --love.graphics.setColor (0, 0, 0, 250)
+    love.graphics.setBlendMode ("subtract", "alphamultiply")
+    love.graphics.rectangle ("fill", 0, 0, LightLines.canvas:getWidth (), LightLines.canvas:getHeight ())
+
+    LightLines.endLines ()
+end
+
+function LightLines.render ()
+    love.graphics.draw (LightLines.canvas)
+end
+
+function LightLines.renderLine (playArea, Cx, Cy, Lx, Ly, lineLength, illuminate)
     local statics = playArea.ENVIRONMENT
     local dynamics = playArea.ENEMIES
     local lineLength = lineLength or 1
     local center = {x = Cx, y = Cy}
     local line = {x = Lx, y = Ly}
-    local returnLine = nil
     local dist = 10000
     local returnLine = {}
+
+    local collided
 
     for i,v in pairs (statics) do
         local result, intersect = LightLines.intersecter (center, line, { x = v.hitbox.x, y = v.hitbox.y }, { x = v.hitbox.x + v.hitbox.width, y = v.hitbox.y }, lineLength) -- TOP
@@ -49,6 +62,7 @@ function LightLines.renderLine (playArea, Cx, Cy, Lx, Ly, lineLength)
                 dist = LightLines.dst2 (Cx, Cy, intersect.x, intersect.y)
                 returnLine.x = intersect.x
                 returnLine.y = intersect.y
+                collided = v
             end
         end
         result, intersect = LightLines.intersecter (center, line, { x = v.hitbox.x, y = v.hitbox.y + v.hitbox.height }, { x = v.hitbox.x + v.hitbox.width, y = v.hitbox.y + v.hitbox.height }, lineLength) -- BOTTOM
@@ -57,6 +71,7 @@ function LightLines.renderLine (playArea, Cx, Cy, Lx, Ly, lineLength)
                 dist = LightLines.dst2 (Cx, Cy, intersect.x, intersect.y)
                 returnLine.x = intersect.x
                 returnLine.y = intersect.y
+                collided = v
             end
         end
 
@@ -66,6 +81,7 @@ function LightLines.renderLine (playArea, Cx, Cy, Lx, Ly, lineLength)
                 dist = LightLines.dst2 (Cx, Cy, intersect.x, intersect.y)
                 returnLine.x = intersect.x
                 returnLine.y = intersect.y
+                collided = v
             end
         end
 
@@ -75,14 +91,22 @@ function LightLines.renderLine (playArea, Cx, Cy, Lx, Ly, lineLength)
                 dist = LightLines.dst2 (Cx, Cy, intersect.x, intersect.y)
                 returnLine.x = intersect.x
                 returnLine.y = intersect.y
+                collided = v
             end
         end
     end
 
     if returnLine.x and returnLine.y then
-        love.graphics.line (Cx, Cy, returnLine.x, returnLine.y)
+        if not LightLines.lock then
+            love.graphics.line (Cx, Cy, returnLine.x, returnLine.y)
+        end
+        if illuminate then
+            collided:illuminate (returnLine.x, returnLine.y)
+        end
     else
-        love.graphics.line (Cx, Cy, Lx, Ly)
+        if not LightLines.lock then
+            love.graphics.line (Cx, Cy, Lx, Ly)
+        end
     end
 end
 

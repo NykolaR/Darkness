@@ -7,9 +7,10 @@ local Room = {}
 
 -- MODULES --
 
-local Floor = require ("src.entity.nonplayableobjects.room.floor")
+local Floor = require ("src.entity.world.floor")
 local Constants = require ("src.logic.general")
 local RoomObj = require ("src.entity.objects.map.room")
+local Enemy = require ("src.entity.enemies.regular.enemy")
 
 --   END   --
 

@@ -63,4 +63,13 @@ function General.setSeed (seed)
     General.Random:setSeed (seed)
 end
 
+function General.randomInt (high)
+    local high = high or 1000000000000
+    return General.Random:random (1, high)
+end
+
+function General.bool ()
+    return (General.Random:random (2) == 1)
+end
+
 return General

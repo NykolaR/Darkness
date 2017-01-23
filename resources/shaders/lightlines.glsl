@@ -14,5 +14,7 @@ vec4 effect (vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords)
     if (valY < 0)
         valY *= -1;
 
-    return vec4 ( ((valX + valY) * second.r) + ((1 - valX - valY) * color.r), ((valX + valY) * second.g) + ((1 - valX - valY) * color.g), ((valX + valY) * second.b) + ((1 - valX - valY) * color.b), color.a);
+    vec4 current = Texel (texture, texture_coords);
+
+    return vec4 ( ((valX + valY) * second.r) + ((1 - valX - valY) * color.r), ((valX + valY) * second.g) + ((1 - valX - valY) * color.g), ((valX + valY) * second.b) + ((1 - valX - valY) * color.b), color.a * current.a);
 }

@@ -44,6 +44,10 @@ function PlayerCollider:_init (x, y)
     self.playerDir = Constants.Directions.RIGHT
 end
 
+function PlayerCollider:facingRight ()
+    return not self.direction
+end
+
 -- Performs all movements for frame
 -- Calls subroutines
 function PlayerCollider:act ()
@@ -149,7 +153,9 @@ end
 -- Slows player down if grounded
 function PlayerCollider:friction ()
     if self.currentFloor then
-        self.frictionValue = self.currentFloor.friction
+        if self.currentFloor.friction then
+            self.frictionValue = self.currentFloor.friction
+        end
     else
         self.frictionValue = Constants.DEFAULTFRICTION
     end
@@ -235,6 +241,10 @@ end
 function PlayerCollider:render ()
     love.graphics.setColor (0, 255, 255)
     love.graphics.rectangle ("fill", self.x, self.y, self.width, self.height)
+end
+
+function PlayerCollider:getFloorDamage ()
+    return (self.grounded and self.currentFloor and self.currentFloor.damageOverTime)
 end
 
 return PlayerCollider

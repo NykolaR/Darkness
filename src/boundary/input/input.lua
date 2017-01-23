@@ -11,9 +11,9 @@
 
 local input = {}
 input ["INPUT"] = {KEY_DOWN = 1, KEY_PRESSED = 2}
-input ["KEYS"] = {LEFT = 1, RIGHT = 2, UP = 3, DOWN = 4, JUMP = 5, SPRINT = 6, ACTIONONE = 7, ACTIONTWO = 8, PAUSE = 9, MAP = 10}
-input ["KEYBOARD_KEYS"] = {LEFT = {"left", "a"}, RIGHT = {"right", "d"}, UP = {"up", "w"}, DOWN = {"down", "s"}, JUMP = {"space"}, SPRINT = {"z"}, ACTIONONE = {"c"}, ACTIONTWO = {"v"}, PAUSE = {"return"}, MAP = {"m"}}
---input ["JOYSTICK_KEYS"] = {LEFT = {"dpleft"}, RIGHT = {"dpright"}, UP = {"dpup"}, DOWN = {"dpdown"}, ACTIONONE = {"a"}, PAUSE = {"start"}}
+input ["KEYS"] = {LEFT = 1, RIGHT = 2, UP = 3, DOWN = 4, JUMP = 5, SPRINT = 6, ACTION_ONE = 7, ACTION_TWO = 8, PAUSE = 9, MAP = 10}
+input ["KEYBOARD_KEYS"] = {LEFT = {"left", "a"}, RIGHT = {"right", "d"}, UP = {"up", "w"}, DOWN = {"down", "s"}, JUMP = {"space"}, SPRINT = {"z"}, ACTION_ONE = {"c"}, ACTION_TWO = {"v"}, PAUSE = {"return"}, MAP = {"m"}}
+input ["JOYSTICK_KEYS"] = {LEFT = {"dpleft"}, RIGHT = {"dpright"}, UP = {"dpup"}, DOWN = {"dpdown"}, JUMP = {"a"}, SPRINT = {"x"}, ACTION_ONE = {"rightshoulder"}, ACTION_TWO = {"leftshoulder"}, PAUSE = {"start"}, MAP = {"back"}}
 
 input ["keys"] = {}
 

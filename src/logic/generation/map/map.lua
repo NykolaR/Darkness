@@ -48,7 +48,6 @@ function MapGenerate.expandArea (map, x, y, amount)
         result,x,y,lastDir = MapGenerate.randomDirectionRoom (map, x, y, General.oppositeDirection (lastDir), area)
         amount = amount - 1
     end
-
 end
 
 function MapGenerate.randomDirectionRoom (map, x, y, oppositeLastDir, area)

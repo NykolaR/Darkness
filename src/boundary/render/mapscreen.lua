@@ -2,6 +2,9 @@
 -- mapscreen.lua
 -- Renders a map
 -- Many wows!
+-- Version: 2.0
+-- Last Refactored Dec. 21st 2016
+-- Quality: Probably good
 --
 
 local MapScreen = {}
@@ -15,7 +18,11 @@ setmetatable (MapScreen, {
     end,
 })
 
+-- MODULES --
+
 local General = require ("src.logic.general")
+
+--   END   --
 
 MapScreen.__SQUARESIZE = 6
 MapScreen.__WALLSIZE = 1
@@ -25,11 +32,16 @@ function MapScreen:_init (map)
     self.canvas = love.graphics.newCanvas (map.xSize * MapScreen.__SQUARESIZE, map.ySize * MapScreen.__SQUARESIZE)
     self.canvas:setFilter ("nearest", "nearest")
     self.map = map
+
+    self.yScale = love.graphics.getHeight () / self.canvas:getHeight ()
+    self.xScale = self.yScale * (9/8)
 end
 
 function MapScreen:updateRender ()
     local lastCanvas = love.graphics.getCanvas ()
     love.graphics.setCanvas (self.canvas)
+    
+    love.graphics.setBlendMode ("alpha", "premultiplied")
 
     for y=1, self.map.ySize, 1 do
         for x=1, self.map.xSize, 1 do
@@ -45,8 +57,12 @@ function MapScreen:updateRender ()
 end
 
 function MapScreen:render ()
+    love.graphics.setColor (255, 255, 255)
+    love.graphics.origin ()
     self:updateRender ()
-    love.graphics.draw (self.canvas, 0, 0, 0, 6, 6)
+
+    love.graphics.scale (self.xScale, self.yScale)
+    love.graphics.draw (self.canvas, 0, 0, 0, 1, 1)
 end
 
 function MapScreen:update ()

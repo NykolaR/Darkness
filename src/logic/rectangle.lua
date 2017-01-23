@@ -58,10 +58,12 @@ function Rectangle:collision (rectangle)
     -- 4 = left
     --]]
 
-    ret [Constants.Directions.UP] = self:collidedTop (rectangle)
-    ret [Constants.Directions.RIGHT] = self:collidedRight (rectangle)
-    ret [Constants.Directions.DOWN] = self:collidedBottom (rectangle)
-    ret [Constants.Directions.LEFT] = self:collidedLeft (rectangle)
+    if self:intersects (rectangle) then
+        ret [Constants.Directions.UP] = self:collidedTop (rectangle)
+        ret [Constants.Directions.RIGHT] = self:collidedRight (rectangle)
+        ret [Constants.Directions.DOWN] = self:collidedBottom (rectangle)
+        ret [Constants.Directions.LEFT] = self:collidedLeft (rectangle)
+    end
 
     return ret
 end
