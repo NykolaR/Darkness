@@ -24,6 +24,7 @@ local Constants = require ("src.logic.general")
 local PlayerLimits = require ("src.logic.physics.playerlimits")
 local Input = require ("src.boundary.input.input")
 local Rectangle = require ("src.logic.rectangle")
+local General = require ("src.logic.general")
 
 --   END   --
 
@@ -115,36 +116,36 @@ function PlayerCollider:horizontalMovement ()
     if Input.keyDown (Input.KEYS.LEFT) then
         if self.grounded then
             if Input.keyDown (Input.KEYS.SPRINT) then
-                self.hSpeed = self.hSpeed - 0.02
+                self.hSpeed = self.hSpeed - (1.2 * General.dt)
                 if self.hSpeed < (self.limits.SPRINTCAP * -1) then
                     self.hSpeed = self.limits.SPRINTCAP * -1
                 end
             else
-                self.hSpeed = self.hSpeed - 0.015
+                self.hSpeed = self.hSpeed - (0.9 * General.dt)
                 if self.hSpeed < (self.limits.RUNCAP * -1) then
                     self.hSpeed = self.limits.RUNCAP * -1
                 end
             end
         else
-            self.hSpeed = self.hSpeed - 0.006
+            self.hSpeed = self.hSpeed - (0.36 * General.dt)
         end
     end
 
     if Input.keyDown (Input.KEYS.RIGHT) then
         if self.grounded then
             if Input.keyDown (Input.KEYS.SPRINT) then
-                self.hSpeed = self.hSpeed + 0.02
+                self.hSpeed = self.hSpeed + (1.2 * General.dt)
                 if self.hSpeed > (self.limits.SPRINTCAP) then
                     self.hSpeed = self.limits.SPRINTCAP
                 end
             else
-                self.hSpeed = self.hSpeed + 0.015
+                self.hSpeed = self.hSpeed + (0.9 * General.dt)
                 if self.hSpeed > (self.limits.RUNCAP) then
                     self.hSpeed = self.limits.RUNCAP
                 end
             end
         else
-            self.hSpeed = self.hSpeed + 0.006
+            self.hSpeed = self.hSpeed + (0.36 * General.dt)
         end
     end
 

@@ -43,7 +43,7 @@ function PlayArea:_init (map, player)
     PlayArea.playerShader:send ("second", self.player.secondColor)
 end
 
-function PlayArea:update (dt)
+function PlayArea:update ()
     self.player:update ()
 
     --local t1 = love.timer.getTime ()

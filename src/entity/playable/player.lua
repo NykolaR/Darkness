@@ -44,7 +44,7 @@ function Player:_init (x, y)
     
     self.lineRays = 0.0
     self.lineAngle = 0.0
-    self.lineROC = 0.02
+    self.lineROC = 1.2
 
     self.color = self.weapon.colorOne
     self.secondColor = self.weapon.colorTwo
@@ -71,7 +71,7 @@ function Player:update ()
         WeaponManager.addWeapon (self.weapon)
     end
 
-    self.lineAngle = self.lineAngle + self.lineROC
+    self.lineAngle = self.lineAngle + (self.lineROC * General.dt)
 
     if self.lineAngle < 0 then
         self.lineROC = self.lineROC * -1

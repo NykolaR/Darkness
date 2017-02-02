@@ -38,6 +38,8 @@ function love.load ()
 end
 
 function love.update (dt)
+    General.dt = dt
+
     Input.handleInputs ()
     if love.keyboard.isDown ("escape") then
         love.event.quit ()
@@ -59,6 +61,7 @@ function love.draw ()
 
     love.graphics.draw (SCREEN_CANVAS)
 
+    love.graphics.setBlendMode ("alpha", "alphamultiply")
     --memoryApprox ()
     --shaderSwitches ()
 end
@@ -76,5 +79,5 @@ function shaderSwitches ()
         str = string.format ("Shader switches: %i", num)
     end
 
-    love.graphics.print (str, 10, 28)
+    love.graphics.print (str, 10, 32)
 end

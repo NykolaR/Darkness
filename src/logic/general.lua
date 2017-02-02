@@ -16,6 +16,8 @@ General.DEFAULTFRICTION = 0.01 -- 0.3 / 32.0
 General.Random = love.math.newRandomGenerator (0)
 General.ROOMSIZE = 23
 
+General.dt = 0
+
 -- Returns a random direction that *isn't* the argument direction
 function General.randomFourWayDirection (notDirection)
     local nd = notDirection or 0

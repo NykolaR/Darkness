@@ -54,7 +54,7 @@ function Explore:_init (seeds)
     self.areaSelect = nil
 end
 
-function Explore:update (dt)
+function Explore:update ()
     if Input.keyPressed (Input.KEYS.MAP) and not (self.runState == Explore.RunState.PAUSE) then
         if self.runState == Explore.RunState.PLAY then
             self.runState = Explore.RunState.MAP
@@ -73,7 +73,7 @@ function Explore:update (dt)
    
     if not paused then
         if self.runState == Explore.RunState.PLAY then
-            self.playArea:update (dt)
+            self.playArea:update ()
         elseif self.runState == Explore.RunState.MAP then
             self.maps [1]:update ()
         end
