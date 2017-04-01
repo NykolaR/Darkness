@@ -18,6 +18,7 @@ Room.BLOCKTYPE = {FLOOR = 1, DOOR = 2, WALL = 3, ITEM = 4, EMPTY = 5, DONTFILL =
 
 function Room.addRoomNew (room, xShift, yShift, playArea)
 
+    --[[
     if room.doors [Constants.Directions.UP].doorType == RoomObj.ROOMTYPES.WALL then
         table.insert (playArea.ENVIRONMENT, Floor (-1.0, -1.0, 25.0, 2.0, xShift, yShift))
     end
@@ -33,6 +34,7 @@ function Room.addRoomNew (room, xShift, yShift, playArea)
     if room.doors [Constants.Directions.LEFT].doorType == RoomObj.ROOMTYPES.WALL then
         table.insert (playArea.ENVIRONMENT, Floor (-1.0, -1.0, 2.0, 25.0, xShift, yShift))
     end
+    ]]
     
     --table.insert (playArea.ENVIRONMENT, Floor (0.0, 15.0, 23.0, 3.0, xShift, yShift))
     table.insert (playArea.ENVIRONMENT, Floor (5.0, 3.0, 3.0, 15.0, xShift, yShift))

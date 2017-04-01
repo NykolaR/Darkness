@@ -10,7 +10,7 @@ local Lit = require ("src.boundary.render.lit")
 Lights.canvas = love.graphics.newCanvas (love.graphics.getWidth (), love.graphics.getHeight ())
 Lights.canvas:setFilter ("nearest", "nearest")
 
-Lights.circleTex = love.graphics.newImage ("resources/sprites/effects/circle.png")
+Lights.circleTex = love.graphics.newImage ("assets/visual/sprites/effects/circle.png")
 
 function Lights.clear ()
     love.graphics.setCanvas (Lights.canvas)

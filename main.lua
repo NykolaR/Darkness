@@ -4,21 +4,25 @@
 
 -- MODULES --
 
-local Input = require ("src.boundary.input.input")
+local Input = require ("src.boundary.input")
 local General = require ("src.logic.general")
-local Explore = require ("src.control.gamestates.explore")
-local GameState = require ("src.control.saves.gamestate")
+--local Explore = require ("src.control.gamestates.explore")
+local GameCreate = require ("src.control.gamecreate")
 
 --   END   --
 
--- GAME GLOBALS --
+local font = love.graphics.newImageFont ("assets/visual/font.png",
+    " abcdefghijklmnopqrstuvwxyz0123456789", 1)
+love.graphics.setFont (font)        
+        
+--[[ GAME GLOBALS --
 
 SCREEN_WIDTH = 32
 SCREEN_WIDTH_HALF = 16
 SCREEN_HEIGHT = 18
 SCREEN_HEIGHT_HALF = 9
 
--- END GLOBALS  --
+-- END GLOBALS  --]]
 
 --1024
 --576
@@ -26,8 +30,8 @@ SCREEN_HEIGHT_HALF = 9
 General.Random:setSeed (os.time ())
 local SCREEN_CANVAS = love.graphics.newCanvas (love.graphics.getWidth (), love.graphics.getHeight ())
 SCREEN_CANVAS:setFilter ("nearest", "nearest")
---local explore = Explore ()
-local explore = GameState.set ()
+
+local explore = nil
 
 function love.load ()
     love.graphics.setLineWidth (0.01)
@@ -35,15 +39,15 @@ function love.load ()
     love.mouse.setVisible (false)
 
     love.graphics.setNewFont (24)
+    
+    explore = GameCreate.createSave ()
 end
 
 function love.update (dt)
     General.dt = dt
 
     Input.handleInputs ()
-    if love.keyboard.isDown ("escape") then
-        love.event.quit ()
-    end
+    checkQuit ()
 
     explore:update ()
 end
@@ -54,30 +58,17 @@ function love.draw ()
 
     explore:render ()
 
+    -- Clear render alterations for final render
     love.graphics.setBlendMode ("alpha", "premultiplied")
     love.graphics.setColor (255, 255, 255)
     love.graphics.setCanvas ()
     love.graphics.setShader ()
 
     love.graphics.draw (SCREEN_CANVAS)
-
-    love.graphics.setBlendMode ("alpha", "alphamultiply")
-    --memoryApprox ()
-    --shaderSwitches ()
 end
 
-function memoryApprox ()
-    local str = string.format ("Approx. mem: %0.2f MB", love.graphics.getStats ().texturememory / 1024 / 1024)
-
-    love.graphics.print (str, 10, 10)
-end
-
-function shaderSwitches ()
-    local num = love.graphics.getStats ().shaderswitches
-    local str = "err"
-    if num then
-        str = string.format ("Shader switches: %i", num)
+function checkQuit ()
+    if love.keyboard.isDown ("escape") then
+        love.event.quit ()
     end
-
-    love.graphics.print (str, 10, 32)
 end

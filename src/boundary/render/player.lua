@@ -12,7 +12,7 @@ local PlayerRender = {}
 
 PlayerRender.__tileSize = 32
 PlayerRender.__tileInverse = 1/32
-PlayerRender.__spriteSheet = love.graphics.newImage ("resources/sprites/player/playerbasenu.png")
+PlayerRender.__spriteSheet = love.graphics.newImage ("assets/visual/sprites/player/playerbasenu.png")
 PlayerRender.__spriteSheet:setFilter ("nearest", "nearest")
 PlayerRender.__quads = {}
 

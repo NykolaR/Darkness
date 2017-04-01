@@ -5,17 +5,9 @@
 -- Last Refactor: 
 -- Quality: WIP
 --
+local Class = require ("src.class")
 
-local PlayArea = {}
-PlayArea.__index = PlayArea
-
-setmetatable (PlayArea, {
-    __call = function (cls, ...)
-        local self = setmetatable ({}, cls)
-        self:_init (...)
-        return self
-    end,
-})
+local PlayArea = Class.new ()
 
 -- MODULES --
 
@@ -28,17 +20,17 @@ local Lit = require ("src.boundary.render.lit")
 
 --   END   --
 
-PlayArea.lightShader = love.graphics.newShader ("resources/shaders/lightlines.glsl")
-PlayArea.playerShader = love.graphics.newShader ("resources/shaders/player.glsl")
+PlayArea.lightShader = love.graphics.newShader ("assets/visual/shaders/lightlines.glsl")
+PlayArea.playerShader = love.graphics.newShader ("assets/visual/shaders/player.glsl")
 
-function PlayArea:_init (map, player)
+function PlayArea:_init (save, player)
     self.player = player or Player (29 * 23 + 10.5, 9 * 23 + 10.0)
     self.ENVIRONMENT = {}
     self.ENEMIES = {}
     self.PLAYERCOLLIDES = {}
     self.ENEMYCOLLIDES = {}
 
-    Area.loadArea (self, map)
+    Area.loadArea (self, save.mapframes [1])
     PlayArea.lightShader:send ("second", self.player.secondColor)
     PlayArea.playerShader:send ("second", self.player.secondColor)
 end

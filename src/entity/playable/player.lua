@@ -7,17 +7,9 @@
 -- Last Refactor: 
 -- Quality: WIP
 --
+local Class = require ("src.class")
 
-local Player = {}
-Player.__index = Player
-
-setmetatable (Player, {
-    __call = function (cls, ...)
-        local self = setmetatable ({}, cls)
-        self:_init (...)
-        return self
-    end,
-})
+local Player = Class.new ()
 
 -- MODULES --
 
@@ -27,7 +19,7 @@ local General = require ("src.logic.general")
 local PlayerRender = require ("src.boundary.render.player")
 local Weapon = require ("src.entity.weapons.weapon")
 local WeaponManager = require ("src.entity.weapons.weaponmanager")
-local Input = require ("src.boundary.input.input")
+local Input = require ("src.boundary.input")
 
 --   END   --
 

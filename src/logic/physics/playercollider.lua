@@ -4,25 +4,16 @@
 -- Provides many player variables and functions
 -- Mostly pertains to movement
 --
-
-local PlayerCollider = {}
-PlayerCollider.__index = PlayerCollider
+local Class = require ("src.class")
 local Collider = require ("src.logic.physics.collider")
 
-setmetatable (PlayerCollider, {
-    __index = Collider,
-    __call = function (cls, ...)
-        local self = setmetatable ({}, cls)
-        self:_init (...)
-        return self
-    end,
-})
+local PlayerCollider = Class.new (Collider)
 
 -- MODULES --
 
 local Constants = require ("src.logic.general")
 local PlayerLimits = require ("src.logic.physics.playerlimits")
-local Input = require ("src.boundary.input.input")
+local Input = require ("src.boundary.input")
 local Rectangle = require ("src.logic.rectangle")
 local General = require ("src.logic.general")
 
